@@ -7,6 +7,7 @@ const COLORS = [
     '#FF0D72', '#0DC2FF', '#0DFF72', '#F538FF',
     '#FF8E0D', '#FFE138', '#3877FF'
 ];
+const GAME_SPEED = 500; // New constant for game speed (milliseconds between updates)
 
 const canvas = document.getElementById('game-board');
 const ctx = canvas.getContext('2d');
@@ -135,7 +136,7 @@ function drawNextPiece() {
 }
 
 function gameOver() {
-    cancelAnimationFrame(gameLoop);
+    clearTimeout(gameLoop);
     finalScoreElement.textContent = score;
     finalHighScoreElement.textContent = highScore;
     gameOverModal.show();
@@ -182,7 +183,7 @@ function update() {
     drawBoard();
     drawPiece(currentPiece, currentPiece.x, currentPiece.y, ctx);
 
-    gameLoop = requestAnimationFrame(update);
+    gameLoop = setTimeout(update, GAME_SPEED);
 }
 
 function startGame() {
@@ -192,7 +193,7 @@ function startGame() {
     score = 0;
     scoreElement.textContent = score;
     drawNextPiece();
-    cancelAnimationFrame(gameLoop);
+    clearTimeout(gameLoop);
     update();
 }
 
